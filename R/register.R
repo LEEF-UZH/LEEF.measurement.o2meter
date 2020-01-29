@@ -6,8 +6,9 @@
 #' @export
 #'
 register <- function() {
-  LEEF.Data::add_extractor( extractor_respirometer)
-
+  LEEF.Data::add_extractor( pre_processor_respirometer )
+  LEEF.Data::add_extractor( extractor_respirometer )
+  ##
   invisible(TRUE)
 }
 

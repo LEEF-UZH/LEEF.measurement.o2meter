@@ -11,7 +11,6 @@
 #' @return invisibly \code{TRUE} when completed successful
 #'
 #' @importFrom dplyr bind_rows
-#' @importFrom magrittr %>% %<>%
 #' @importFrom readr read_csv
 #' @export
 #'
@@ -41,15 +40,15 @@ extractor_respirometer <- function( input, output ) {
     respirometer_files,
     readr::read_csv2,
     skip = 1
-  ) %>%
-    # combine intu one large tibble
-    dplyr::bind_rows(.) %>%
-    dplyr::filter(Date != "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+  )
+  # combine intu one large tibble
+  res <- dplyr::bind_rows(res)
+  res <- dplyr::filter(res, Date != "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 
 # SAVE --------------------------------------------------------------------
 
   add_path <- file.path( output, "respirometer" )
-  dir.create( add_path )
+  dir.create( add_path, recursive = TRUE, showWarnings = FALSE )
   saveRDS(
     object = res,
     file = file.path(add_path, "respirometer.rds")

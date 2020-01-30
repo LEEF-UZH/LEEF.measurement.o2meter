@@ -1,6 +1,6 @@
-Package: LEEF.measurement.respirometer
+Package: LEEF.measurement.flowcytometer
 Type: Package
-Title: Pre-process and extract respirometer
+Title: Pre-process and extract flowcytometer
 Version: 0.2.0
 Author: Rainer M. Krug <Rainer.Krug@uzh.ch>
 Maintainer: Rainer M. Krug <Rainer.Krug@uzh.ch>

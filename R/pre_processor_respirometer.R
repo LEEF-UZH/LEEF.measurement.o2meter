@@ -13,8 +13,8 @@ pre_processor_respirometer <- function(
   input,
   output
 ) {
-  cat("\n########################################################\n")
-  cat("\nProcessing respirometer\n")
+  message("\n########################################################\n")
+  message("\nProcessing respirometer\n")
   ##
   dir.create(
     file.path(output, "respirometer"),
@@ -27,8 +27,8 @@ pre_processor_respirometer <- function(
     recursive = TRUE
   )
   ##
-  cat("done\n")
-  cat("\n########################################################\n")
+  message("done\n")
+  message("\n########################################################\n")
 
   invisible(TRUE)
 }

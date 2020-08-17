@@ -89,6 +89,13 @@ build-cran:
 
 ####
 
+drat: build
+	cd 
+	@Rscript -e "drat::insertPackage('./../$(PKGNAME)_$(PKGVERS).tar.gz', repodir = './../../drat/', commit = TRUE)"
+	cd ./../../drat/; git push origin gh-pages
+	
+####
+
 install: build
 	cd ..;\
 	R CMD INSTALL $(PKGNAME)_$(PKGVERS).tar.gz

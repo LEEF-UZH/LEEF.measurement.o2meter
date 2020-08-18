@@ -1,9 +1,13 @@
 Package: LEEF.measurement.respirometer
 Type: Package
 Title: Pre-Process and Extract Respirometer
-Version: 0.5.1
-Author: Rainer M. Krug <Rainer.Krug@uzh.ch>
+Version: 0.8.0
+Authors@R: c(
+  person(given = "Rainer M.", family = "Krug", email = "Rainer.Krug@uzh.zch", role = c("aut", "cre"))
+  )
 Maintainer: Rainer M. Krug <Rainer.Krug@uzh.ch>
+BugReports: https://github.com/LEEF-UZH/LEEF.measurement.respirometer/issues
+URL: https://github.com/LEEF-UZH/LEEF.measurement.respirometer
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
 License: MIT + file LICENSE
@@ -13,7 +17,7 @@ Imports:
 	utils
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.1
 Suggests: 
     LEEF.Data,
     testthat,

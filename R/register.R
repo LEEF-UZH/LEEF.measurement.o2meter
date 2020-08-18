@@ -1,16 +1,16 @@
-#' Register the processing of respirometer data in the LEEF.Data package
+#' Register the processing of respirometer data in the LEEF package
 #'
 #' @return invisibly \code{TRUE} when completed successful
 #'
 #' @export
 #'
 register <- function() {
-  if (is.null(system.file(package = "LEEF.Data"))) {
+  if (is.null(system.file(package = "LEEF"))) {
     stop("This function requres the package to be installed!")
   }
 
-  LEEF.Data::add_pre_processor( pre_processor_respirometer )
-  LEEF.Data::add_extractor( extractor_respirometer )
+  LEEF::add_pre_processor( pre_processor_respirometer )
+  LEEF::add_extractor( extractor_respirometer )
   ##
   invisible(TRUE)
 }

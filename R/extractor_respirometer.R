@@ -1,6 +1,6 @@
-#' Extractor respirometer data
+#' Extractor o2meter data
 #'
-#' Convert all \code{.cvs} files in \code{respirometer} folder to \code{data.frame} and save as \code{.rds} file.
+#' Convert all \code{.cvs} files in \code{o2meter} folder to \code{data.frame} and save as \code{.rds} file.
 #'
 #' This function is extracting data to be added to the database (and therefore make accessible for further analysis and forecasting)
 #' from \code{.csv} files.
@@ -13,24 +13,24 @@
 #' @importFrom utils read.delim
 #' @export
 #'
-extractor_respirometer <- function(
+extractor_o2meter <- function(
   input,
   output
 ) {
   message("\n########################################################\n")
-  message("Extracting respirometer\n")
+  message("Extracting o2meter\n")
 
   # Get csv file names ------------------------------------------------------
 
-  respirometer_path <- file.path( input, "respirometer" )
-  respirometer_files <- list.files(
-    path = respirometer_path,
+  o2meter_path <- file.path( input, "o2meter" )
+  o2meter_files <- list.files(
+    path = o2meter_path,
     pattern = "*.csv",
     full.names = TRUE,
     recursive = TRUE
   )
 
-  if (length(respirometer_files) == 0) {
+  if (length(o2meter_files) == 0) {
     message("nothing to extract\n")
     message("\n########################################################\n")
     return(invisible(FALSE))
@@ -65,7 +65,7 @@ extractor_respirometer <- function(
     "empty"
   )
   res <- lapply(
-    respirometer_files,
+    o2meter_files,
     function(fn) {
       x <- read.delim(
         file = fn,
@@ -90,11 +90,12 @@ extractor_respirometer <- function(
 
   # SAVE --------------------------------------------------------------------
 
-  add_path <- file.path( output, "respirometer" )
+  add_path <- file.path( output, "o2meter" )
   dir.create( add_path, recursive = TRUE, showWarnings = FALSE )
+  names(res) <- tolower(names(res))
   saveRDS(
     object = res,
-    file = file.path(add_path, "respirometer.rds")
+    file = file.path(add_path, "o2meter.rds")
   )
 
   # Finalize ----------------------------------------------------------------

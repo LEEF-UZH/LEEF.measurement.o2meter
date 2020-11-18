@@ -1,4 +1,4 @@
-#' Preprocessor respirometer data
+#' Preprocessor o2meter data
 #'
 #' Just copy from input to output
 #'
@@ -9,21 +9,21 @@
 #'
 #' @export
 
-pre_processor_respirometer <- function(
+pre_processor_o2meter <- function(
   input,
   output
 ) {
   message("\n########################################################\n")
-  message("\nProcessing respirometer\n")
+  message("\nProcessing o2meter\n")
   ##
   dir.create(
-    file.path(output, "respirometer"),
+    file.path(output, "o2meter"),
     recursive = TRUE,
     showWarnings = FALSE
   )
   file.copy(
-    from = file.path(input, "respirometer", "."),
-    to = file.path(output, "respirometer"),
+    from = file.path(input, "o2meter", "."),
+    to = file.path(output, "o2meter"),
     recursive = TRUE
   )
   ##

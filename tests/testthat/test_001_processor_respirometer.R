@@ -17,7 +17,7 @@ hash <- function(dir) {
   unlist(x)
 }
 
-raw <- system.file( "0.raw.data", package = "LEEF.measurement.respirometer")
+raw <- system.file( "0.raw.data", package = "LEEF.measurement.o2meter")
 pre_processed <- tempfile(pattern = "test_processed_")
 extracted <- tempfile(pattern = "test_extracted_")
 
@@ -27,20 +27,20 @@ if (!file.exists(raw)) skip("Test data not available!")
 
 # Test pre_processor ------------------------------------------------------
 
-context("Test pre_processor_respirometer()")
+context("Test pre_processor_o2meter()")
 
 test_that(
-  "pre_processor_respirometer() runs without error",
+  "pre_processor_o2meter() runs without error",
   expect_error(
-    object = suppressMessages( pre_processor_respirometer( input = raw, output = pre_processed ) ),
+    object = suppressMessages( pre_processor_o2meter( input = raw, output = pre_processed ) ),
     regexp = NA
   )
 )
 
 test_that(
-  "pre_processor_respirometer() returns correct result",
+  "pre_processor_o2meter() returns correct result",
   expect_known_hash(
-    hash( file.path(pre_processed, "respirometer") ),
+    hash( file.path(pre_processed, "o2meter") ),
     hash = "381e24de24"
   )
 )
@@ -49,20 +49,20 @@ test_that(
 # Test extractor ----------------------------------------------------------
 
 
-context("Test extractor_respirometer()")
+context("Test extractor_o2meter()")
 
 test_that(
-  "extractor_respirometer() runs without error",
+  "extractor_o2meter() runs without error",
   expect_error(
-    object = suppressMessages( extractor_respirometer( input = pre_processed, output = extracted) ),
+    object = suppressMessages( extractor_o2meter( input = pre_processed, output = extracted) ),
     regexp = NA
   )
 )
 
 test_that(
-  "extractor_respirometer() returns correct result",
+  "extractor_o2meter() returns correct result",
   expect_known_hash(
-    hash( file.path(extracted, "respirometer") ),
+    hash( file.path(extracted, "o2meter") ),
     hash = "5fdc0b5f85"
   )
 )

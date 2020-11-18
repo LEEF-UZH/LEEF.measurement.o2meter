@@ -1,4 +1,4 @@
 library(testthat)
-library(LEEF.measurement.respirometer)
+library(LEEF.measurement.o2meter)
 
-test_check("LEEF.measurement.respirometer")
+test_check("LEEF.measurement.o2meter")

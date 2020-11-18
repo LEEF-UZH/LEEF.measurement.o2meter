@@ -26,6 +26,11 @@ pre_processor_o2meter <- function(
     to = file.path(output, "o2meter"),
     recursive = TRUE
   )
+  file.copy(
+    from = file.path(input, "sample_metadata.yml"),
+    to = file.path(output, "sample_metadata.yml")
+  )
+
   ##
   message("done\n")
   message("\n########################################################\n")

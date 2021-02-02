@@ -31,9 +31,9 @@ extractor_o2meter <- function(
     full.names = TRUE,
     recursive = TRUE
   )
-  
+
 	fn <- grep("composition|experimental_design|dilution", fn, invert = TRUE, value = TRUE)
-  
+
   if (length(fn) == 0) {
     message("nothing to extract\n")
     message("\n########################################################\n")
@@ -54,28 +54,41 @@ extractor_o2meter <- function(
   dat <- utils::read.delim(
     fn,
     skip = 1,
+    sep = ",",
+    quote = "",
     fill = TRUE,
     fileEncoding = "ISO-8859-1"
   )
+
+	names(dat) <- gsub("X\\.|\\.", "", names(dat))
+
+	for (i in 1:nrow(dat)) {
+	  dat[i,] <- gsub('"', '', dat[i,])
+	}
 
   dat[dat == "µV"] <- "microV"
   dat[dat == "°C"] <- "C"
 
 	empty_line <- which(apply(is.na(dat) | dat == "", 1, all))
-	dat <- dat[1:(empty_line - 1), ]
+	if (length(empty_line > 0)) {
+	  dat <- dat[1:(empty_line - 1), ]
+	}
+
+	dat <- dat[-nrow(dat),]
 
   timestamp <- yaml::read_yaml(file.path(input, "o2meter", "sample_metadata.yml"))$timestamp
 
-  
+
   ## B_01_400
   sensor_name <- strsplit(
-    dat$Sensor_Name,split = "_"
+    dat$Sensor_Name,
+    split = "_"
   )
   sensor_name <- do.call(rbind, sensor_name)
   sensor_name <- data.frame(sensor_name)
 
 	dat <- cbind(
-		timestamp = timestamp, 
+		timestamp = timestamp,
   	bottle = as.integer(sensor_name[[2]]),
   	sensor = as.integer(sensor_name[[3]]),
   	dat
@@ -91,9 +104,16 @@ extractor_o2meter <- function(
     file = file.path(add_path, "o2meter.csv"),
     row.names = FALSE
   )
+
+  fns <- grep(
+    basename(fn),
+    list.files(file.path(input, "o2meter")),
+    invert = TRUE,
+    value = TRUE
+  )
   file.copy(
-    from = file.path(input, "o2meter", "sample_metadata.yml"),
-    to = file.path(output, "o2meter", "sample_metadata.yml")
+    from = file.path(input, "o2meter", fns),
+    to = file.path(output, "o2meter", "")
   )
 
   # Finalize ----------------------------------------------------------------

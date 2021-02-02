@@ -4,13 +4,13 @@
     "http://schema.org"
   ],
   "@type": "SoftwareSourceCode",
-  "identifier": "LEEF.measurement.respirometer",
+  "identifier": "LEEF.measurement.o2meter",
   "description": "More about what it does (maybe more than one line)\n    Use four spaces when indenting paragraphs within the Description.",
-  "name": "LEEF.measurement.respirometer: Pre-Process and Extract Respirometer",
+  "name": "LEEF.measurement.o2meter: Pre-Process and Extract o2meter",
   "codeRepository": "https://github.com/LEEF-UZH/LEEF.measurement.respirometer",
   "issueTracker": "https://github.com/LEEF-UZH/LEEF.measurement.respirometer/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.8.0",
+  "version": "0.9.2",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -73,6 +73,18 @@
       "@type": "SoftwareApplication",
       "identifier": "utils",
       "name": "utils"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "yaml",
+      "name": "yaml",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=yaml"
     }
   ],
   "readme": "https://github.com/LEEF-UZH/LEEF.measurement.o2meter/blob/master/Readme.md",

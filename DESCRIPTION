@@ -1,7 +1,7 @@
-Package: LEEF.measurement.respirometer
+Package: LEEF.measurement.o2meter
 Type: Package
-Title: Pre-Process and Extract Respirometer
-Version: 0.8.0
+Title: Pre-Process and Extract o2meter
+Version: 0.9.2
 Authors@R: c(
   person(given = "Rainer M.", family = "Krug", email = "Rainer.Krug@uzh.zch", role = c("aut", "cre"))
   )
@@ -14,7 +14,8 @@ License: MIT + file LICENSE
 Depends: 
 	R (>= 3.5.0)
 Imports: 
-	utils
+	utils,
+	yaml
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.1

@@ -22,13 +22,20 @@ pre_processor_o2meter <- function(
     showWarnings = FALSE
   )
   file.copy(
+  	file.path( input, "..", "00.general.parameter", "." ),
+  	file.path( output, "o2meter" ),
+  	recursive = TRUE,
+  	overwrite = TRUE
+  )
+
+  file.copy(
     from = file.path(input, "o2meter", "."),
     to = file.path(output, "o2meter"),
     recursive = TRUE
   )
   file.copy(
     from = file.path(input, "sample_metadata.yml"),
-    to = file.path(output, "sample_metadata.yml")
+    to = file.path(output, "o2meter", "sample_metadata.yml")
   )
 
   ##

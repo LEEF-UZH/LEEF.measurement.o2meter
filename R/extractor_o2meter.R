@@ -10,7 +10,9 @@
 #'
 #' @return invisibly \code{TRUE} when completed successful
 #'
-#' @importFrom utils read.delim
+#' @importFrom utils read.delim write.csv
+#' @importFrom yaml read_yaml
+#'
 #' @export
 #'
 extractor_o2meter <- function(
@@ -29,7 +31,9 @@ extractor_o2meter <- function(
     full.names = TRUE,
     recursive = TRUE
   )
-
+  
+	fn <- grep("composition|experimental_design|dilution", fn, invert = TRUE, value = TRUE)
+  
   if (length(fn) == 0) {
     message("nothing to extract\n")
     message("\n########################################################\n")
@@ -44,26 +48,52 @@ extractor_o2meter <- function(
 
   # Read file ---------------------------------------------------------------
 
-  dat <- read.table(
+  # to get possible encodings:
+  # readr::guess_encoding(fn)
+
+  dat <- utils::read.delim(
     fn,
     skip = 1,
-    fill = TRUE
+    fill = TRUE,
+    fileEncoding = "ISO-8859-1"
   )
-  names(dat) <- dat[1,]
-  dat <- dat[c(-1, -nrow(dat)),]
+
+  dat[dat == "µV"] <- "microV"
+  dat[dat == "°C"] <- "C"
+
+	empty_line <- which(apply(is.na(dat) | dat == "", 1, all))
+	dat <- dat[1:(empty_line - 1), ]
+
+  timestamp <- yaml::read_yaml(file.path(input, "o2meter", "sample_metadata.yml"))$timestamp
+
+  
+  ## B_01_400
+  sensor_name <- strsplit(
+    dat$Sensor_Name,split = "_"
+  )
+  sensor_name <- do.call(rbind, sensor_name)
+  sensor_name <- data.frame(sensor_name)
+
+	dat <- cbind(
+		timestamp = timestamp, 
+  	bottle = as.integer(sensor_name[[2]]),
+  	sensor = as.integer(sensor_name[[3]]),
+  	dat
+  )
+
 
   # SAVE --------------------------------------------------------------------
 
   add_path <- file.path( output, "o2meter" )
   dir.create( add_path, recursive = TRUE, showWarnings = FALSE )
-  names(dat) <- tolower(names(dat))
-  saveRDS(
-    object = dat,
-    file = file.path(add_path, "o2meter.rds")
+  utils::write.csv(
+    dat,
+    file = file.path(add_path, "o2meter.csv"),
+    row.names = FALSE
   )
   file.copy(
-    from = file.path(input, "sample_metadata.yml"),
-    to = file.path(output, "sample_metadata.yml")
+    from = file.path(input, "o2meter", "sample_metadata.yml"),
+    to = file.path(output, "o2meter", "sample_metadata.yml")
   )
 
   # Finalize ----------------------------------------------------------------

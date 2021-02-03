@@ -16,16 +16,24 @@ pre_processor_o2meter <- function(
   message("\n########################################################\n")
   message("\nProcessing o2meter\n")
   ##
+  if ( length( list.files( file.path(input, "o2meter") ) ) == 0 ) {
+    message("\nEmpty or missing o2meter directory - nothing to do.\n")
+    message("\ndone\n")
+    message("########################################################\n")
+    return(invisible(TRUE))
+  } 
+  
   dir.create(
     file.path(output, "o2meter"),
     recursive = TRUE,
     showWarnings = FALSE
   )
+
   file.copy(
-  	file.path( input, "..", "00.general.parameter", "." ),
-  	file.path( output, "o2meter" ),
-  	recursive = TRUE,
-  	overwrite = TRUE
+    file.path( input, "..", "00.general.parameter", "." ),
+    file.path( output, "o2meter" ),
+    recursive = TRUE,
+    overwrite = TRUE
   )
 
   file.copy(
@@ -33,10 +41,7 @@ pre_processor_o2meter <- function(
     to = file.path(output, "o2meter"),
     recursive = TRUE
   )
-  file.copy(
-    from = file.path(input, "sample_metadata.yml"),
-    to = file.path(output, "o2meter", "sample_metadata.yml")
-  )
+
 
   ##
   message("done\n")

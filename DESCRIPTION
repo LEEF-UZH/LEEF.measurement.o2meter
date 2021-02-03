@@ -1,7 +1,7 @@
 Package: LEEF.measurement.o2meter
 Type: Package
 Title: Pre-Process and Extract o2meter
-Version: 0.9.3
+Version: 0.9.4
 Authors@R: c(
   person(given = "Rainer M.", family = "Krug", email = "Rainer.Krug@uzh.zch", role = c("aut", "cre"))
   )

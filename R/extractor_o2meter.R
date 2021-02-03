@@ -37,7 +37,7 @@ extractor_o2meter <- function(
   if (length(fn) == 0) {
     message("nothing to extract\n")
     message("\n########################################################\n")
-    return(invisible(FALSE))
+    return(invisible(TRUE))
   }
 
   if (length(fn) > 1) {

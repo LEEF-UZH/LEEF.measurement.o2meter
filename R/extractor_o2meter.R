@@ -19,8 +19,14 @@ extractor_o2meter <- function(
   input,
   output
 ) {
+  dir.create(
+    file.path(output, "o2meter"),
+    recursive = TRUE,
+    showWarnings = FALSE
+  )
+  loggit::set_logfile(file.path(output, "flowcam", "flowcam.log"))
+
   message("\n########################################################\n")
-  message("Extracting o2meter\n")
 
   # Get csv file names ------------------------------------------------------
 
@@ -32,7 +38,15 @@ extractor_o2meter <- function(
     recursive = TRUE
   )
 
-	fn <- grep("composition|experimental_design|dilution", fn, invert = TRUE, value = TRUE)
+  message("Extracting o2meter\n")
+  if ( length( o2meter_path ) == 0 ) {
+    message("\nEmpty or missing o2meter directory - nothing to do.\n")
+    message("\ndone\n")
+    message("########################################################\n")
+    return(invisible(TRUE))
+  }
+
+  fn <- grep("composition|experimental_design|dilution", fn, invert = TRUE, value = TRUE)
 
   if (length(fn) == 0) {
     message("nothing to extract\n")

@@ -3,6 +3,7 @@
 export(extractor_o2meter)
 export(pre_processor_o2meter)
 export(register)
+import(loggit)
 importFrom(utils,read.delim)
 importFrom(utils,write.csv)
 importFrom(yaml,read_yaml)

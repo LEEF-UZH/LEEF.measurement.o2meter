@@ -7,12 +7,20 @@
 #'
 #' @return invisibly \code{TRUE} when completed successful
 #'
+#' @import loggit
 #' @export
 
 pre_processor_o2meter <- function(
   input,
   output
 ) {
+  dir.create(
+    file.path(output, "o2meter"),
+    recursive = TRUE,
+    showWarnings = FALSE
+  )
+  loggit::set_logfile(file.path(output, "flowcam", "flowcam.log"))
+
   message("\n########################################################\n")
   message("\nProcessing o2meter\n")
   ##
@@ -21,13 +29,8 @@ pre_processor_o2meter <- function(
     message("\ndone\n")
     message("########################################################\n")
     return(invisible(TRUE))
-  } 
-  
-  dir.create(
-    file.path(output, "o2meter"),
-    recursive = TRUE,
-    showWarnings = FALSE
-  )
+  }
+
 
   file.copy(
     file.path( input, "..", "00.general.parameter", "." ),

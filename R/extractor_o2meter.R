@@ -103,7 +103,7 @@ extractor_o2meter <- function(
 
 	dat <- cbind(
 		timestamp = timestamp,
-  	bottle = as.integer(sensor_name[[2]]),
+  	bottle = paste0("b_", as.integer(sensor_name[[2]])),
   	sensor = as.integer(sensor_name[[3]]),
   	dat
   )

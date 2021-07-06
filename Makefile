@@ -91,10 +91,10 @@ build-cran:
 ####
 
 drat: docs build
-	cd 
+	cd
 	@Rscript -e "drat::insertPackage('./../$(PKGNAME)_$(PKGVERS).tar.gz', repodir = './../../drat/', commit = TRUE)"
 
-	
+
 ####
 
 install: build

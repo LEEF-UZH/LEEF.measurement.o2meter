@@ -19,7 +19,7 @@ pre_processor_o2meter <- function(
     recursive = TRUE,
     showWarnings = FALSE
   )
-  loggit::set_logfile(file.path(output, "flowcam", "flowcam.log"))
+  loggit::set_logfile(file.path(output, "o2meter", "o2meter.log"))
 
   message("\n########################################################\n")
   message("\nProcessing o2meter\n")

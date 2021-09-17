@@ -24,7 +24,7 @@ extractor_o2meter <- function(
     recursive = TRUE,
     showWarnings = FALSE
   )
-  loggit::set_logfile(file.path(output, "flowcam", "flowcam.log"))
+  loggit::set_logfile(file.path(output, "o2meter", "o2meter.log"))
 
   message("\n########################################################\n")
 
@@ -47,6 +47,7 @@ extractor_o2meter <- function(
   }
 
   fn <- grep("composition|experimental_design|dilution", fn, invert = TRUE, value = TRUE)
+  fn <- grep(".csv", fn, value = TRUE)
 
   if (length(fn) == 0) {
     message("nothing to extract\n")
@@ -92,6 +93,12 @@ extractor_o2meter <- function(
 
   timestamp <- yaml::read_yaml(file.path(input, "o2meter", "sample_metadata.yml"))$timestamp
 
+  today_dat <- as.Date(as.character(dat$Date), format = "%m/%d/%Y") == as.Date(as.character(timestamp), format = "%Y%m%d")
+
+  dat <- dat[today_dat,]
+
+  dat$Value[dat$Value == "---"] <- NA
+  dat$Value <- as.numeric(dat$Value)
 
   ## B_01_400
   sensor_name <- strsplit(

@@ -81,8 +81,8 @@ extractor_o2meter <- function(
 	  dat[i,] <- gsub('"', '', dat[i,])
 	}
 
-  dat[dat == "µV"] <- "microV"
-  dat[dat == "°C"] <- "C"
+  dat[dat == "ÂµV"] <- "microV"
+  dat[dat == "Â°C"] <- "C"
 
 	empty_line <- which(apply(is.na(dat) | dat == "", 1, all))
 	if (length(empty_line > 0)) {

@@ -97,7 +97,8 @@ extractor_o2meter <- function(
 
   dat <- dat[today_dat,]
 
-  dat$Value[dat$Value == "---"] <- NA
+  # dat$Value[dat$Value == "---"] <- NA
+  dat <- dat[dat$Value != "---", ]
   dat$Value <- as.numeric(dat$Value)
 
   ## B_01_400

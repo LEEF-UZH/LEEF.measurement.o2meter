@@ -14,6 +14,13 @@ pre_processor_o2meter <- function(
   input,
   output
 ) {
+  if ( length( list.files( file.path(input, "o2meter") ) ) == 0 ) {
+    message("\nEmpty or missing o2meter directory - nothing to do.\n")
+    message("\ndone\n")
+    message("########################################################\n")
+    return(invisible(TRUE))
+  }
+
   dir.create(
     file.path(output, "o2meter"),
     recursive = TRUE,
@@ -24,12 +31,7 @@ pre_processor_o2meter <- function(
   message("\n########################################################\n")
   message("\nProcessing o2meter\n")
   ##
-  if ( length( list.files( file.path(input, "o2meter") ) ) == 0 ) {
-    message("\nEmpty or missing o2meter directory - nothing to do.\n")
-    message("\ndone\n")
-    message("########################################################\n")
-    return(invisible(TRUE))
-  }
+
 
 
   file.copy(

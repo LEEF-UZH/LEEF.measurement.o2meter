@@ -19,6 +19,14 @@ extractor_o2meter <- function(
   input,
   output
 ) {
+  message("Extracting o2meter\n")
+  if ( length( list.files( file.path(input, "o2meter") ) ) == 0 ) {
+    message("\nEmpty or missing o2meter directory - nothing to do.\n")
+    message("\ndone\n")
+    message("########################################################\n")
+    return(invisible(TRUE))
+  }
+
   dir.create(
     file.path(output, "o2meter"),
     recursive = TRUE,
@@ -38,13 +46,6 @@ extractor_o2meter <- function(
     recursive = TRUE
   )
 
-  message("Extracting o2meter\n")
-  if ( length( o2meter_path ) == 0 ) {
-    message("\nEmpty or missing o2meter directory - nothing to do.\n")
-    message("\ndone\n")
-    message("########################################################\n")
-    return(invisible(TRUE))
-  }
 
   fn <- grep("composition|experimental_design|dilution", fn, invert = TRUE, value = TRUE)
   fn <- grep(".csv", fn, value = TRUE)

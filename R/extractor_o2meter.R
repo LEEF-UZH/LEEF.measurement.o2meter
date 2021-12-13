@@ -67,36 +67,79 @@ extractor_o2meter <- function(
   # to get possible encodings:
   # readr::guess_encoding(fn)
 
-  dat <- utils::read.delim(
-    fn,
-    skip = 1,
-    sep = ",",
-    quote = "",
-    fill = TRUE,
-    fileEncoding = "ISO-8859-1"
-  )
+  timestamp <- yaml::read_yaml(file.path(input, "o2meter", "sample_metadata.yml"))$timestamp
 
-	names(dat) <- gsub("X\\.|\\.", "", names(dat))
+  if (grepl("3.0.3.1653", readLines(fn, n = 1))) {
+    dat <- utils::read.delim(
+      fn,
+      skip = 1,
+      sep = ",",
+      quote = "\"",
+      fill = TRUE,
+      fileEncoding = "ISO-8859-1"
+    )
 
-	for (i in 1:nrow(dat)) {
-	  dat[i,] <- gsub('"', '', dat[i,])
-	}
+    names(dat) <- gsub("X\\.|\\.", "", names(dat))
+
+    empty_line <- which(apply(is.na(dat) | dat == "", 1, all))
+    if (length(empty_line > 0)) {
+      dat <- dat[1:(empty_line - 1), ]
+    }
+
+    dat <- dat[-nrow(dat),]
+
+  } else if (grepl("Date;Time;User;SensorID;", readLines("~/Desktop/0.raw.data/o2meter/new.csv", n = 1))) {
+    defnames <- c(
+      "Date", "Time", "Channel", "User", "SensorID", "Sensor_Name",
+      "delta_t", "Time_Unit", "Value", "O2_Unit", "Mode", "Phase",
+      "Phase_Unit", "Amplitude", "Amplitude_Unit", "Temp", "Temp_Unit",
+      "Pressure", "Pressure_Unit", "Salinity", "Salinity_Unit", "Error",
+      "Cal0", "Cal0_Unit", "T0", "T0_Unit", "O2Cal2nd", "O2_Unit1",
+      "Cal2nd", "Cal2nd_Unit", "T2nd", "T2nd_Unit", "CalPressure",
+      "CalPressure_Unit", "f1", "dPhi1", "dkSv1", "dPhi2", "dkSv2",
+      "m", "Cal_Mode", "SignalLEDCurrent", "User_Signal_Intensity",
+      "ReferenceLEDCurrent", "Reference_Amplitude", "Device_Serial",
+      "FwVersion", "SwVersion", "Sensor_Type", "BatchID", "Calibration_Date",
+      "Sensor_Lot", "PreSens_Calibr", "Battery_Voltage", "Battery_Voltage_Unit"
+    )
+    dat <- utils::read.delim(
+      fn,
+      skip = 1,
+      col.names = c(defnames[-c(3, 43, 48)], "XXXX"),
+      sep = ";",
+      quote = "",
+      fill = TRUE,
+      fileEncoding = "ISO-8859-1"
+    )
+    dat <- dat[,-ncol(dat)]
+    dat <- dat[-nrow(dat),]
+
+
+    prev <- Sys.getlocale("LC_TIME")
+    Sys.setlocale("LC_TIME", "de_DE")
+    dat$Date <- format(
+      as.Date(
+        as.character(dat$Date),
+        format = "%d-%b-%Y"
+      ),
+      format = "%m/%d/%Y"
+    )
+    Sys.setlocale("LC_TIME", prev)
+  }
+
+  # filter out the timestamp
+  today_dat <- as.Date(as.character(dat$Date), format = "%m/%d/%Y") == as.Date(as.character(timestamp), format = "%Y%m%d")
+  dat <- dat[today_dat,]
+
+  for (i in 1:nrow(dat)) {
+    dat[i,] <- gsub('"', '', dat[i,])
+  }
 
   dat[dat == "ÂµV"] <- "microV"
   dat[dat == "Â°C"] <- "C"
 
-	empty_line <- which(apply(is.na(dat) | dat == "", 1, all))
-	if (length(empty_line > 0)) {
-	  dat <- dat[1:(empty_line - 1), ]
-	}
 
-	dat <- dat[-nrow(dat),]
 
-  timestamp <- yaml::read_yaml(file.path(input, "o2meter", "sample_metadata.yml"))$timestamp
-
-  today_dat <- as.Date(as.character(dat$Date), format = "%m/%d/%Y") == as.Date(as.character(timestamp), format = "%Y%m%d")
-
-  dat <- dat[today_dat,]
 
   # dat$Value[dat$Value == "---"] <- NA
   dat <- dat[dat$Value != "---", ]

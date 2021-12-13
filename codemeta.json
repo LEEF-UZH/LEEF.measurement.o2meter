@@ -10,13 +10,13 @@
   "codeRepository": "https://github.com/LEEF-UZH/LEEF.measurement.respirometer",
   "issueTracker": "https://github.com/LEEF-UZH/LEEF.measurement.respirometer/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.9.12",
+  "version": "0.9.13",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.1.1 (2021-08-10)",
+  "runtimePlatform": "R version 4.1.2 (2021-11-01)",
   "author": [
     {
       "@type": "Person",
@@ -105,5 +105,5 @@
     }
   ],
   "readme": "https://github.com/LEEF-UZH/LEEF.measurement.o2meter/blob/master/Readme.md",
-  "fileSize": "10.336KB"
+  "fileSize": "11.885KB"
 }

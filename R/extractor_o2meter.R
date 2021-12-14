@@ -115,8 +115,20 @@ extractor_o2meter <- function(
     dat <- dat[-nrow(dat),]
 
 
-    prev <- Sys.getlocale("LC_TIME")
-    Sys.setlocale("LC_TIME", "de_DE")
+    # prev <- Sys.getlocale("LC_TIME")
+    # Sys.setlocale("LC_TIME", "de_DE")
+    dat$Date <- gsub("Jan", "Jan", dat$Date)
+    dat$Date <- gsub("Feb", "Feb", dat$Date)
+    dat$Date <- gsub("Mär", "Mär", dat$Date)
+    dat$Date <- gsub("Apr", "Apr", dat$Date)
+    dat$Date <- gsub("Mai", "Mai", dat$Date)
+    dat$Date <- gsub("Jun", "Jun", dat$Date)
+    dat$Date <- gsub("Jul", "Jul", dat$Date)
+    dat$Date <- gsub("Aug", "Aug", dat$Date)
+    dat$Date <- gsub("Sep", "Sep", dat$Date)
+    dat$Date <- gsub("Okt", "Oct", dat$Date)
+    dat$Date <- gsub("Nov", "Nov", dat$Date)
+    dat$Date <- gsub("Dez", "Dec", dat$Date)
     dat$Date <- format(
       as.Date(
         as.character(dat$Date),
@@ -124,7 +136,7 @@ extractor_o2meter <- function(
       ),
       format = "%m/%d/%Y"
     )
-    Sys.setlocale("LC_TIME", prev)
+    # Sys.setlocale("LC_TIME", prev)
   }
 
   # filter out the timestamp

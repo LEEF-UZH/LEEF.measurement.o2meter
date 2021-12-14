@@ -88,7 +88,7 @@ extractor_o2meter <- function(
 
     dat <- dat[-nrow(dat),]
 
-  } else if (grepl("Date;Time;User;SensorID;", readLines("~/Desktop/0.raw.data/o2meter/new.csv", n = 1))) {
+  } else if (grepl("Date;Time;User;SensorID;", readLines(fn, n = 1))) {
     defnames <- c(
       "Date", "Time", "Channel", "User", "SensorID", "Sensor_Name",
       "delta_t", "Time_Unit", "Value", "O2_Unit", "Mode", "Phase",

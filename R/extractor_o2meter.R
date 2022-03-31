@@ -91,8 +91,8 @@ extractor_o2meter <- function(
   } else if (grepl("Date;Time;User;SensorID;", readLines(fn, n = 1))) {
     defnames <- c(
       "Date", "Time", "Channel", "User", "SensorID", "Sensor_Name",
-      "delta_t", "Time_Unit", "Value", "O2_Unit", "Mode", "Phase",
-      "Phase_Unit", "Amplitude", "Amplitude_Unit", "Temp", "Temp_Unit",
+      "delta_t", "Time_Unit", "Value", "O2_Unit",
+      "Mode", "Phase", "Phase_Unit", "Amplitude", "Amplitude_Unit", "Temp", "Temp_Unit",
       "Pressure", "Pressure_Unit", "Salinity", "Salinity_Unit", "Error",
       "Cal0", "Cal0_Unit", "T0", "T0_Unit", "O2Cal2nd", "O2_Unit1",
       "Cal2nd", "Cal2nd_Unit", "T2nd", "T2nd_Unit", "CalPressure",
@@ -102,10 +102,25 @@ extractor_o2meter <- function(
       "FwVersion", "SwVersion", "Sensor_Type", "BatchID", "Calibration_Date",
       "Sensor_Lot", "PreSens_Calibr", "Battery_Voltage", "Battery_Voltage_Unit"
     )
+    fw <- read.delim(fn, nrows=0, sep = ";", quote = "",fileEncoding = "ISO-8859-1" )[["FwVersion"]]
+    fw <- unique(fw)
+    fw <- trimws(fw)
+    fw <- fw[fw!=""]
+    if (length(fw) != 1){
+      stop("Non unique Firmware version in O2 file.")
+    }
+
+    switch(
+      fw,
+      p1.2.0. = defnames <- defnames,
+      p1.2.0.1 = defnames <- defnames[-c(4, 44, 48)],
+      stop("Not recognised Firmware Version in O2 file!")
+    )
+
     dat <- utils::read.delim(
       fn,
       skip = 1,
-      col.names = c(defnames[-c(3, 43, 48)], "XXXX"),
+      col.names = defnames,
       sep = ";",
       quote = "",
       fill = TRUE,

@@ -112,26 +112,47 @@ extractor_o2meter <- function(
 
     switch(
       fw,
-      p1.2.0. = defnames <- defnames,
-      p1.2.0.1 = defnames <- defnames[-c(4, 44, 48)],
+      p1.2.0. = {
+        defnames <- defnames
+        dat <- utils::read.delim(
+          fn,
+          skip = 1,
+          col.names = defnames,
+          sep = ";",
+          quote = "",
+          fill = TRUE,
+          fileEncoding = "ISO-8859-1"
+        )
+        dat <- dat[,-ncol(dat)]
+        dat <- dat[-nrow(dat),]
+      },
+      p1.2.0.1 = {
+        defnames <- defnames[-c(3, 43, 48)]
+        dat <- utils::read.delim(
+          fn,
+          skip = 1,
+          col.names = defnames,
+          sep = ";",
+          quote = "",
+          fill = TRUE,
+          fileEncoding = "ISO-8859-1"
+        )
+        dat <- dat[-nrow(dat),]
+      },
       stop("Not recognised Firmware Version in O2 file!")
     )
 
-    dat <- utils::read.delim(
-      fn,
-      skip = 1,
-      col.names = defnames,
-      sep = ";",
-      quote = "",
-      fill = TRUE,
-      fileEncoding = "ISO-8859-1"
-    )
-    dat <- dat[,-ncol(dat)]
-    dat <- dat[-nrow(dat),]
 
 
     # prev <- Sys.getlocale("LC_TIME")
     # Sys.setlocale("LC_TIME", "de_DE")
+    ## TODO Thi=s is not nice - have to rethink other solutions!!!!!
+    dat$Date <- gsub("-20$", "-2020", dat$Date)
+    dat$Date <- gsub("-21$", "-2021", dat$Date)
+    dat$Date <- gsub("-22$", "-2022", dat$Date)
+    dat$Date <- gsub("-23$", "-2023", dat$Date)
+    dat$Date <- gsub("-24$", "-2024", dat$Date)
+    ## End Rethink
     dat$Date <- gsub("Jan", "Jan", dat$Date)
     dat$Date <- gsub("Feb", "Feb", dat$Date)
     dat$Date <- gsub("Mär", "Mär", dat$Date)

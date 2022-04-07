@@ -127,9 +127,10 @@ extractor_o2meter <- function(
         dat <- dat[-nrow(dat),]
       },
       p1.2.0.1 = {
-        defnames <- defnames[-c(3, 43, 48)]
+        defnames <- c(defnames[-c(3, 43, 48)], "DELETE")
         dat <- utils::read.delim(
           fn,
+          header = FALSE,
           skip = 1,
           col.names = defnames,
           sep = ";",
@@ -138,6 +139,7 @@ extractor_o2meter <- function(
           fileEncoding = "ISO-8859-1"
         )
         dat <- dat[-nrow(dat),]
+        dat <- dat[,-ncol(dat)]
       },
       stop("Not recognised Firmware Version in O2 file!")
     )
@@ -146,7 +148,7 @@ extractor_o2meter <- function(
 
     # prev <- Sys.getlocale("LC_TIME")
     # Sys.setlocale("LC_TIME", "de_DE")
-    ## TODO Thi=s is not nice - have to rethink other solutions!!!!!
+    ## TODO This is not nice - have to rethink other solutions!!!!!
     dat$Date <- gsub("-20$", "-2020", dat$Date)
     dat$Date <- gsub("-21$", "-2021", dat$Date)
     dat$Date <- gsub("-22$", "-2022", dat$Date)

@@ -1,4 +1,4 @@
-Package: LEEF.measurement.o2meter
+Package: LEEF.2.measurement.o2meter
 Type: Package
 Title: Pre-Process and Extract o2meter
 Version: 0.9.19

@@ -141,6 +141,21 @@ extractor_o2meter <- function(
         dat <- dat[-nrow(dat),]
         dat <- dat[,-ncol(dat)]
       },
+      p1.2.0.6 = {
+        defnames <- c(defnames[-c(3, 43, 48)], "DELETE")
+        dat <- utils::read.delim(
+          fn,
+          header = FALSE,
+          skip = 1,
+          col.names = defnames,
+          sep = ";",
+          quote = "",
+          fill = TRUE,
+          fileEncoding = "ISO-8859-1"
+        )
+        dat <- dat[-nrow(dat),]
+        dat <- dat[,-ncol(dat)]
+      },
       stop("Not recognised Firmware Version in O2 file!")
     )
 
